@@ -1,0 +1,8 @@
+// service 모듈은 하위 모듈들의 부모 모듈이므로 실행 불가
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = false
+}

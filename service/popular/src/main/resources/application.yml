@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: popular-service
+  profiles:
+    include: common
+
+server:
+  port: 8085

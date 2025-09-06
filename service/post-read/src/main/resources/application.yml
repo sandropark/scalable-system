@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: post-read-service
+  profiles:
+    include: common
+
+server:
+  port: 8086

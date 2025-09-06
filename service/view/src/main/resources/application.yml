@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: view-service
+  profiles:
+    include: common
+
+server:
+  port: 8084

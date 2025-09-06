@@ -1,1 +1,12 @@
-rootProject.name = 'base-project'
+rootProject.name = 'scalable-system'
+
+// Common module
+include 'common'
+
+// Service modules
+include 'service:post'
+include 'service:comment'
+include 'service:like'
+include 'service:view'
+include 'service:popular'
+include 'service:post-read'
