@@ -41,4 +41,35 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             nativeQuery = true
     )
     int count(@Param("boardId") Long boardId, @Param("limit") Long limit);
+
+    @Query(
+            value = """
+                    select *
+                    from posts
+                    where board_id = :boardId
+                    order by posts.id desc
+                    limit :limit
+                    """,
+            nativeQuery = true
+    )
+    List<Post> findAllInfiniteScroll(
+            @Param("boardId") Long boardId,
+            @Param("limit") int limit
+    );
+
+    @Query(
+            value = """
+                    select *
+                    from posts
+                    where board_id = :boardId and id < :lastPostId
+                    order by posts.id desc
+                    limit :limit
+                    """,
+            nativeQuery = true
+    )
+    List<Post> findAllInfiniteScroll(
+            @Param("boardId") Long boardId,
+            @Param("lastPostId") Long lastPostId,
+            @Param("limit") int limit
+    );
 }

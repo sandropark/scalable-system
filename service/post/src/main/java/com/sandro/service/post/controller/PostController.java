@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/v1/posts")
 @Controller
 @RequiredArgsConstructor
@@ -42,5 +44,10 @@ public class PostController {
     @GetMapping
     public ResponseEntity<PostPageResponse> getAll(@RequestParam Long boardId, @PageableDefault Pageable pageable) {
         return ResponseEntity.ok(postService.getAll(boardId, pageable));
+    }
+
+    @GetMapping("/infinite-scroll")
+    public ResponseEntity<List<PostResponse>> getAllInfiniteScroll(@RequestParam Long boardId, @RequestParam(required = false) Long id, @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(postService.getAllInfiniteScroll(boardId, id, pageable.getPageSize()));
     }
 }

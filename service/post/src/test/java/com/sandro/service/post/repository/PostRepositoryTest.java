@@ -29,4 +29,23 @@ class PostRepositoryTest {
         int count = postRepository.count(1L, 10000L);
         System.out.println("count = " + count);
     }
+
+    @Test
+    void findAllInfiniteScroll() throws Exception {
+        List<Post> result = postRepository.findAllInfiniteScroll(1L, 30);
+        assertThat(result)
+                .hasSize(30)
+                .extracting(Post::getId)
+                .isSortedAccordingTo(Comparator.reverseOrder());
+
+        Long lastPostId = result.getLast().getId();
+        result = postRepository.findAllInfiniteScroll(1L, lastPostId, 30);
+
+        assertThat(result)
+                .hasSize(30)
+                .extracting(Post::getId)
+                .isSortedAccordingTo(Comparator.reverseOrder())
+                .allSatisfy(id -> assertThat(id).isLessThan(lastPostId));
+    }
+
 }

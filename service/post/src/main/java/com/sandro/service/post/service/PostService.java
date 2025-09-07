@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -64,5 +66,12 @@ public class PostService {
                         )
                 )
         );
+    }
+
+    public List<PostResponse> getAllInfiniteScroll(Long boardId, Long id, int size) {
+        List<Post> posts = id == null
+                ? postRepository.findAllInfiniteScroll(boardId, size)
+                : postRepository.findAllInfiniteScroll(boardId, id, size);
+        return posts.stream().map(PostResponse::of).toList();
     }
 }
