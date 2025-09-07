@@ -5,8 +5,10 @@ import com.sandro.service.post.domain.Post;
 import com.sandro.service.post.repository.PostRepository;
 import com.sandro.service.post.service.request.PostCreateRequest;
 import com.sandro.service.post.service.request.PostUpdateRequest;
+import com.sandro.service.post.service.response.PostPageResponse;
 import com.sandro.service.post.service.response.PostResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,5 +44,25 @@ public class PostService {
     @Transactional
     public void delete(Long id) {
         postRepository.deleteById(id);
+    }
+
+    public PostPageResponse getAll(Long boardId, Pageable pageable) {
+        return new PostPageResponse(
+                postRepository.findAll(
+                                boardId,
+                                pageable.getOffset(),
+                                pageable.getPageSize()
+                        )
+                        .stream()
+                        .map(PostResponse::of)
+                        .toList(),
+                postRepository.count(
+                        boardId,
+                        PageLimitCalculator.calculatePageLimit(
+                                pageable.getPageNumber(),
+                                pageable.getPageSize()
+                        )
+                )
+        );
     }
 }

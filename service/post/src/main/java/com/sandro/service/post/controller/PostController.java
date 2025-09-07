@@ -3,8 +3,11 @@ package com.sandro.service.post.controller;
 import com.sandro.service.post.service.PostService;
 import com.sandro.service.post.service.request.PostCreateRequest;
 import com.sandro.service.post.service.request.PostUpdateRequest;
+import com.sandro.service.post.service.response.PostPageResponse;
 import com.sandro.service.post.service.response.PostResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +37,10 @@ public class PostController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         postService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<PostPageResponse> getAll(@RequestParam Long boardId, @PageableDefault Pageable pageable) {
+        return ResponseEntity.ok(postService.getAll(boardId, pageable));
     }
 }
