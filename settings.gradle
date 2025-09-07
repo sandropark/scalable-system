@@ -1,7 +1,10 @@
 rootProject.name = 'scalable-system'
 
 // Common module
-include 'common'
+include 'common:snowflake'
+include 'common:data-serializer'
+include 'common:event'
+include 'common:outbox-message-relay'
 
 // Service modules
 include 'service:post'

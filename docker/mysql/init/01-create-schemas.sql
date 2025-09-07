@@ -1,0 +1,5 @@
+-- 서비스별 스키마 생성
+CREATE DATABASE IF NOT EXISTS post CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+# CREATE DATABASE IF NOT EXISTS comment CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+# CREATE DATABASE IF NOT EXISTS post_like CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+# CREATE DATABASE IF NOT EXISTS post_view CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
