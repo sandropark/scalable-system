@@ -1,4 +1,4 @@
-package com.sandro.common.exception;
+package com.sandro.common.domain.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

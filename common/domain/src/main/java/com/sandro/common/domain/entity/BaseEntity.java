@@ -1,4 +1,4 @@
-package com.sandro.common.domain;
+package com.sandro.common.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
