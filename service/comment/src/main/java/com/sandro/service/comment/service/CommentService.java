@@ -1,14 +1,18 @@
 package com.sandro.service.comment.service;
 
+import com.sandro.common.domain.util.PageLimitCalculator;
 import com.sandro.common.snowflake.Snowflake;
 import com.sandro.service.comment.domain.Comment;
 import com.sandro.service.comment.repository.CommentRepository;
 import com.sandro.service.comment.service.request.CommentCreateRequest;
+import com.sandro.service.comment.service.response.CommentPageResponse;
 import com.sandro.service.comment.service.response.CommentResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.function.Predicate.not;
@@ -73,5 +77,31 @@ public class CommentService {
                     .filter(Comment::getDeleted)
                     .filter(not(this::hasChildren))
                     .ifPresent(this::delect);
+    }
+
+    public CommentPageResponse getAll(Long postId, Pageable pageable) {
+        return new CommentPageResponse(
+                commentRepository.findAll(
+                                postId,
+                                pageable.getOffset(),
+                                pageable.getPageSize()
+                        ).stream()
+                        .map(CommentResponse::of)
+                        .toList(),
+                commentRepository.countBy(
+                        postId,
+                        PageLimitCalculator.calculatePageLimit(
+                                pageable.getPageNumber(),
+                                pageable.getPageSize()
+                        )
+                )
+        );
+    }
+
+    public List<CommentResponse> getAllInfiniteScroll(Long postId, Long lastParentCommentId, Long lastCommentId, int size) {
+        List<Comment> comments = lastParentCommentId == null || lastCommentId == null
+                ? commentRepository.findAllInfiniteScroll(postId, size)
+                : commentRepository.findAllInfiniteScroll(postId, lastParentCommentId, lastCommentId, size);
+        return comments.stream().map(CommentResponse::of).toList();
     }
 }

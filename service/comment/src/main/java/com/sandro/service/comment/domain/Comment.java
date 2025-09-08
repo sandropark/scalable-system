@@ -1,10 +1,7 @@
 package com.sandro.service.comment.domain;
 
 import com.sandro.common.domain.entity.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,24 +11,33 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "comments")
+@Table(
+        name = "comments",
+        indexes = {
+                @Index(
+                        name = "idx_post_id_parent_comment_id_comment_id",
+                        columnList = "post_id, parent_comment_id, id"
+                )
+        }
+)
 public class Comment extends BaseEntity {
 
     @Id
     private Long id;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(nullable = false)
+    @Column(name = "post_id", nullable = false)
     private Long postId;
 
+    @Column(name = "parent_comment_id")
     private Long parentCommentId;
 
-    @Column(nullable = false)
+    @Column(name = "writer_id", nullable = false)
     private Long writerId;
 
-    @Column(nullable = false)
+    @Column(name = "deleted", nullable = false)
     private Boolean deleted = false;
 
     public Comment(Long id, String content, Long postId, Long parentCommentId, Long writerId) {
