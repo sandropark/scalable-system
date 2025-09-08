@@ -1,5 +1,6 @@
 package com.sandro.service.post.controller;
 
+import com.sandro.service.post.service.request.PostUpdateRequest;
 import com.sandro.service.post.service.response.PostPageResponse;
 import com.sandro.service.post.service.response.PostResponse;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PostControllerTest {
     RestClient restClient = RestClient.create("http://localhost:8081");
+
+    @Test
+    void update() throws Exception {
+        PostResponse res = restClient
+                .put()
+                .uri("/v1/posts/{id}", 222946105939660800L)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(new PostUpdateRequest(
+                        "updated title",
+                        "updated content"
+                ))
+                .retrieve()
+                .body(PostResponse.class);
+
+        assertThat(res).isNotNull();
+        assertThat(res.title()).isEqualTo("updated title");
+        assertThat(res.content()).isEqualTo("updated content");
+    }
 
     @Test
     void getAll() throws Exception {

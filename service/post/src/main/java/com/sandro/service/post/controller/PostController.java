@@ -47,7 +47,10 @@ public class PostController {
     }
 
     @GetMapping("/infinite-scroll")
-    public ResponseEntity<List<PostResponse>> getAllInfiniteScroll(@RequestParam Long boardId, @RequestParam(required = false) Long id, @PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(postService.getAllInfiniteScroll(boardId, id, pageable.getPageSize()));
+    public ResponseEntity<List<PostResponse>> getAllInfiniteScroll(
+            @RequestParam Long boardId,
+            @RequestParam(required = false) Long id,
+            @RequestParam(defaultValue = "20") int size) {
+        return ResponseEntity.ok(postService.getAllInfiniteScroll(boardId, id, size));
     }
 }
