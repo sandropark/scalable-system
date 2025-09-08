@@ -1,4 +1,4 @@
-package com.sandro.service.post.service;
+package com.sandro.common.domain.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

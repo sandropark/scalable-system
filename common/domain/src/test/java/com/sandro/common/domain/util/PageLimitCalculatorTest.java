@@ -1,4 +1,4 @@
-package com.sandro.service.post.service;
+package com.sandro.common.domain.util;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
