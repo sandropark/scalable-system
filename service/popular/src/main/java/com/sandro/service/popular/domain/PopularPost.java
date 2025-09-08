@@ -1,6 +1,6 @@
 package com.sandro.service.popular.domain;
 
-import com.sandro.common.domain.BaseEntity;
+import com.sandro.common.domain.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
